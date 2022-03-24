@@ -1,5 +1,5 @@
-from cypher import AESCipher
-import base64
+from cipher.ecies import EciesEth, Ecies
+from utils.utils import diff_time
 
 import unittest
 
@@ -28,6 +28,51 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(decrypted, data)
 
 
+@diff_time
+def test_ii():
+    message = "Es genial trabajar con ordenadores. No discuten, lo recuerdan todo y no se beben tu cerveza. -Paul Leary"
+
+    private = "MHhjNWU3ZmY5ZDE1NDdmMTNkMmE2YmY5NGViZGYyNzY4MGNkYTk3NGUwNGUzNzI0MTE1ZGMxZjYzMGFhYWY5M2E0"
+    # private = "MDIxMDc3ZWU4YTA5NDk4N2M2YTc4NGY2MjE3ZTkwNGY3YjI5YWMyMzk1MDRkNmIzYmYxYjI2ZTNhNDFjZjYxMA=="
+    print(f"key_private: {private}")
+
+    public = "MHhlN2UyYmUwYWUwNGZkOTk5ZDE1NjBhZjQ3NWU1OTAyOWYzZDJlOTM2MzYxZTZi" \
+             "ZDA1ZWZiZGVmYzg0MjRkM2YxZjhjODE0ZDZkZjYxMThhN2NkNWM2ODg5YWI3YmFh" \
+             "Yzc2MDViMDhhYmJlODhjYzkyNGVhYzllYWU1ZmU0MGUxZA=="
+    print(f"key_public: {public}")
+
+    ecies = EciesEth(private, public)
+    message_enc = "BGDlAFstEpGVkpuo9U8qX1VGzSkPmqd35m7L6dEjxaxkrB8hXD5L5gtcNqO" \
+                  "s6ONWaaYF5Ui+7gVjV5FJnCsW+Bh4ZaVffLZTKdQVZ0vOLjsa04vAo2sWny" \
+                  "iVExyQWAlndQ7uDZtT5lowp4wsk3MKFF6WJUkGaAlae5gtT4+HiJqIuROP7" \
+                  "PDW7xb9Av52GwzX/jCNDIqr2YbwGP/rONNDNw2uHxVZ7NPpVTu3I1ge4Qw8" \
+                  "G489CRdvh1JOTryhSiIGOx124e+lCq40"
+
+    decrypt_data = ecies.decrypt(message_enc)
+    print(f"Decrypt message: '{decrypt_data}'")
+
+
+def test_iii():
+    private = "MDllOTFkYjMxZTNiNTYwMzdkOTVlOGQxYmEyYjQ3NzhjN2M5MGNlODE4YWI0MDE4NWE2YTZiNTQ1MTRmOGM1Zg =="
+    public = "MDIzN2E0M2RhYWJiZDJjMjJhZmVjYzE3ZWU3MDkxMDQ1ZDU1YzBkODg2ODIxYmYwMTA0YjEyM2Y0ZmRlZWMyMjc5"
+
+    data = "BL+Fu87LUFBe3X/QJck3kN291VbEI9MmR3xAtIuu3qinDzTy2j7lpoK+pgMkS2zg6LYW8PCHaZokGGLBxc4UxG2EVNb" + \
+           "4VNrCR+M2Oh6aY1yuAWMA6WVV0oVPWNcjKU22+GStHTEdRcA="
+    e = Ecies(private_key=private, public_key=public)
+    # print(f"PrivateKey: {e.get_private_key()}")
+    # print(f" PublicKey: {e.get_public_key()}")
+
+    m = "Mensaje"
+    # m_e = e.encrypt(m)
+    print(f"Encrypted: {data}")
+
+    m_d = e.decrypt(data)
+    print(f"Decrypted: {m_d}")
+
 
 if __name__ == '__main__':
+    # test()
+    # test_ii()
+    test_iii()
+
     unittest.main()
