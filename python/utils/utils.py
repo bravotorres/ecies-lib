@@ -4,6 +4,8 @@ from datetime import datetime
 def diff_time(function):
     """
     Decorator to measure elapsed time from a subscribed function.
+    TODO: Implement with a logger integration.
+
     :param function:
     :return: Result from subscribed function.
     """
@@ -18,7 +20,6 @@ def diff_time(function):
             print(f"Error in '{function.__name__}': {e}")
         finally:
             final = datetime.now()
-            print(f"ElapsedTime: {final - init}")
+            print(f"ElapsedTime('{function.__name__}'): {final - init}")
 
     return inner
-
