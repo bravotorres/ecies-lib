@@ -1,11 +1,5 @@
-import { generatePrivate, getPublic, encrypt, decrypt } from "eccrypto";
+import {decrypt, encrypt, generatePrivate, getPublic} from "eccrypto";
 
-// let privateKeyA = generatePrivate();
-// console.log(`privateKeyA: ${privateKeyA}`);
-// console.log(`privateKeyA: ${privateKeyA.toString()}`);
-//
-// let publicKeyA = getPublic(privateKeyA);
-// console.log(`publicKeyA: ${publicKeyA}`);
 //
 // let privateKeyB = generatePrivate();
 // console.log(`privateKeyB: ${privateKeyB}`);
@@ -40,7 +34,7 @@ function test_i() {
     const public_key = "MDIzN2E0M2RhYWJiZDJjMjJhZmVjYzE3ZWU3MDkxMDQ1ZDU1YzBkODg2ODIxYmYwMTA0YjEyM2Y0ZmRlZWMyMjc5";
 
     const message_secret = "BL+Fu87LUFBe3X/QJck3kN291VbEI9MmR3xAtIuu3qinDzTy2j7lpoK+pgMkS2zg6LYW8PCHaZokGGLBxc4UxG2" +
-                           "EVNb4VNrCR+M2Oh6aY1yuAWMA6WVV0oVPWNcjKU22+GStHTEdRcA=";
+        "EVNb4VNrCR+M2Oh6aY1yuAWMA6WVV0oVPWNcjKU22+GStHTEdRcA=";
 
     // let msg = "Alexxändr Núñez Göebèlsáê";
     // let msg_b = Buffer.from(msg, "utf-8").base64Slice();
@@ -54,7 +48,7 @@ function test_i() {
     } catch (e) {
         console.log(e);
     }
-    let data = decrypt(public_key).then(function(message) {
+    let data = decrypt(public_key).then(function (message) {
         console.log(`message: ${message}`);
     }).catch(function (error) {
         console.log(`error: ${error}`);
@@ -70,12 +64,12 @@ function test_ii() {
     const public_key = "MDIzN2E0M2RhYWJiZDJjMjJhZmVjYzE3ZWU3MDkxMDQ1ZDU1YzBkODg2ODIxYmYwMTA0YjEyM2Y0ZmRlZWMyMjc5";
 
     const message_enc = "BD2NPMycdxfE2hJB5jyG6ozs7MHOA0hQrsrEeq5hnLs9PkZmNQE46BAzrO2dUZ0ecKsT2rB6PZo6jzIEU2b0kimhyV29" +
-                        "eE6y0E4hVbdq14RwVXjnAhSODN8ZC5RBxsjp31ivqH0zAKHMpfHRiPkBBPgVr1gPurSvkkNMknXUtYtPBxbQc9IHpIlZ" +
-                        "e8YQWX105obraACxDOoCHV2I1kWUiuxlABI1knO0pD1e9mNwmdgkq5YhJApVKKVX4WUcGrfVHNnvdRTkBXCf";
+        "eE6y0E4hVbdq14RwVXjnAhSODN8ZC5RBxsjp31ivqH0zAKHMpfHRiPkBBPgVr1gPurSvkkNMknXUtYtPBxbQc9IHpIlZ" +
+        "e8YQWX105obraACxDOoCHV2I1kWUiuxlABI1knO0pD1e9mNwmdgkq5YhJApVKKVX4WUcGrfVHNnvdRTkBXCf";
 
 
     let x;
-    try{
+    try {
         x = decrypt(private_key, message_enc);
     } catch (e) {
         console.log(e);
@@ -90,7 +84,67 @@ function test_ii() {
 }
 
 
+function test_iii() {
+    const private_keyA = "MDllOTFkYjMxZTNiNTYwMzdkOTVlOGQxYmEyYjQ3NzhjN2M5MGNlODE4YWI0MDE4NWE2YTZiNTQ1MTRmOGM1Zg==";
+    const public_keyA = "MDIzN2E0M2RhYWJiZDJjMjJhZmVjYzE3ZWU3MDkxMDQ1ZDU1YzBkODg2ODIxYmYwMTA0YjEyM2Y0ZmRlZWMyMjc5";
+
+    const private_keyB = "MHhjNWU3ZmY5ZDE1NDdmMTNkMmE2YmY5NGViZGYyNzY4MGNkYTk3NGUwNGUzNzI0MTE1ZGMxZjYzMGFhYWY5M2E0"
+    const public_keyB = "MHhlN2UyYmUwYWUwNGZkOTk5ZDE1NjBhZjQ3NWU1OTAyOWYzZDJlOTM2MzYxZTZiZDA1ZWZiZGVmYzg0MjRkM2YxZjhjODE0ZDZkZjYxMThhN2NkNWM2ODg5YWI3YmFhYzc2MDViMDhhYmJlODhjYzkyNGVhYzllYWU1ZmU0MGUxZA=="
+
+
+    const message = "Si la depuración es el proceso de eliminar errores, entonces la programación debe ser el proceso de introducirlos. Edsger W. Dijkstra";
+
+    let public_keyA_b = Buffer.from(public_keyA, 'base64');
+    let public_keyA_u = new Uint8Array(public_keyA_b);
+
+    encrypt(public_keyA_u, Buffer.from(message)).then((data) => {
+        console.log(`DATA: ${data}`);
+        console.log(`DATA: ${Buffer.from(data, 'utf-8')}`);
+    }).catch((error) => {
+        console.log(`ERRO: ${error}`);
+    });
+
+    let public_keyB_b = Buffer.from(public_keyB, 'base64');
+    let public_keyB_u = new Uint8Array(public_keyB_b);
+
+    encrypt(public_keyB_u, Buffer.from(message)).then((data) => {
+        console.log(`DATA: ${data}`);
+        console.log(`DATA: ${Buffer.from(data, 'utf-8')}`);
+    }).catch((error) => {
+        console.log(`ERRO: ${error}`);
+    });
+}
+
+
+async function test_iv() {
+    let message = "Esta e suna frase de prueba";
+
+    let privateKeyA = generatePrivate();
+    let publicKeyA = getPublic(privateKeyA);
+
+    console.log(`message: ${message}`);
+
+    let message_enc = '';
+    await encrypt(publicKeyA, message).then((msg) => {
+        message_enc = msg
+        console.log(`ecrypted: '${message_enc}'`);
+    }).catch((error) => {
+        console.log(`ERROR: '${error}'`);
+    });
+
+    let message_dec = '';
+    await decrypt(privateKeyA, message).then((msg) => {
+        message_dec = msg;
+        console.log(`decrypted: '${message_dec}'`);
+    }).catch((error) => {
+        console.log(`ERROR: '${error}'`);
+    });
+
+}
+
 (() => {
     // test_i();
-    test_ii();
+    // test_ii();
+    // test_iii();
+    test_iv();
 })();
