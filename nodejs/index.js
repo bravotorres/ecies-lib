@@ -1,22 +1,28 @@
-import { encrypt, decrypt, PrivateKey } from 'eciesjs';
+import { generatePrivate, getPublic, encrypt, decrypt } from "eccrypto";
 
+let privateKeyA = generatePrivate();
+let publicKeyA = getPublic(privateKeyA);
+let privateKeyB = generatePrivate();
+let publicKeyB = getPublic(privateKeyB);
 
-const k1 = new PrivateKey();
-const data = Buffer.from('this is a test');
+const message_a = "Lorem ipsum";
 
-const key_private = "MHhjNWU3ZmY5ZDE1NDdmMTNkMmE2YmY5NGViZGYyNzY4MGNkYTk3NGUwNGUzNzI0MTE1ZGMxZjYzMGFhYWY5M2E0"
-const key_public = "MHhlN2UyYmUwYWUwNGZkOTk5ZDE1NjBhZjQ3NWU1OTAyOWYzZDJlOTM2MzYxZTZiZDA1ZWZiZGVmYzg0MjRkM2YxZjhjODE0ZDZkZjYxMThhN2NkNWM2ODg5YWI3YmFhYzc2MDViMDhhYmJlODhjYzkyNGVhYzllYWU1ZmU0MGUxZA=="
+// Encrypting the message for B.
+encrypt(publicKeyB, Buffer.from(message_a)).then(function(encrypted) {
+    // B decrypting the message.
+    console.log(`ecrypted: ${encrypted}`);
+    // console.log(`ecrypted: ${Buffer.from(encrypted.ciphertext).toString('base64')}`);
+    decrypt(privateKeyB, encrypted).then(function(plaintext) {
+        console.log("Message to part B:", plaintext.toString());
+    });
+});
 
-const message = "BGDlAFstEpGVkpuo9U8qX1VGzSkPmqd35m7L6dEjxaxkrB8hXD5L5gtcNqOs6ONWaaYF5Ui+7gVjV5FJnCsW+Bh4ZaVffLZTKdQVZ0vOLjsa04vAo2sWnyiVExyQWAlndQ7uDZtT5lowp4wsk3MKFF6WJUkGaAlae5gtT4+HiJqIuROP7PDW7xb9Av52GwzX/jCNDIqr2YbwGP/rONNDNw2uHxVZ7NPpVTu3I1ge4Qw8G489CRdvh1JOTryhSiIGOx124e+lCq40"
+// Encrypting the message for A.
+encrypt(publicKeyA, Buffer.from("msg to a")).then(function(encrypted) {
+    // A decrypting the message.
+    console.log(`ecrypted: ${encrypted}`);
+    decrypt(privateKeyA, encrypted).then(function(plaintext) {
+        console.log("Message to part A:", plaintext.toString());
+    });
+});
 
-
-let message_dec = decrypt(
-    key,
-    message
-).toString();
-
-// decrypt(
-//     k1.toHex(), 
-//     encrypt(k1.publicKey.toHex(), data)
-// ).toString();
-// console.log('this is a test')

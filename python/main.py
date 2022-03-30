@@ -10,9 +10,7 @@ def demo_i():
     # private = "MDIxMDc3ZWU4YTA5NDk4N2M2YTc4NGY2MjE3ZTkwNGY3YjI5YWMyMzk1MDRkNmIzYmYxYjI2ZTNhNDFjZjYxMA=="
     print(f"key_private: {private}")
 
-    public = "MHhlN2UyYmUwYWUwNGZkOTk5ZDE1NjBhZjQ3NWU1OTAyOWYzZDJlOTM2MzYxZTZi" \
-             "ZDA1ZWZiZGVmYzg0MjRkM2YxZjhjODE0ZDZkZjYxMThhN2NkNWM2ODg5YWI3YmFh" \
-             "Yzc2MDViMDhhYmJlODhjYzkyNGVhYzllYWU1ZmU0MGUxZA=="
+    public = "MHhlN2UyYmUwYWUwNGZkOTk5ZDE1NjBhZjQ3NWU1OTAyOWYzZDJlOTM2MzYxZTZiZDA1ZWZiZGVmYzg0MjRkM2YxZjhjODE0ZDZkZjYxMThhN2NkNWM2ODg5YWI3YmFhYzc2MDViMDhhYmJlODhjYzkyNGVhYzllYWU1ZmU0MGUxZA=="
     print(f"key_public: {public}")
 
     ecies = ECIES(private, public)
