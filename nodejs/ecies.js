@@ -1,150 +1,54 @@
-import {decrypt, encrypt, generatePrivate, getPublic} from "eccrypto";
-
-//
-// let privateKeyB = generatePrivate();
-// console.log(`privateKeyB: ${privateKeyB}`);
-//
-// let publicKeyB = getPublic(privateKeyB);
-// console.log(`publicKeyB: ${publicKeyB}`);
-//
-//
-// // Encrypting the message for B.
-// encrypt(publicKeyB, Buffer.from("msg to b")).then(function(encrypted) {
-//     // B decrypting the message.
-//     decrypt(privateKeyB, encrypted).then(function(plaintext) {
-//         console.log("Message to part B:", plaintext.toString());
-//     });
-// });
-//
-// // Encrypting the message for A.
-// encrypt(publicKeyA, Buffer.from("msg to a")).then(function(encrypted) {
-//     // A decrypting the message.
-//     decrypt(privateKeyA, encrypted).then(function(plaintext) {
-//         console.log("Message to part A:", plaintext.toString());
-//     });
-// });
+import { encrypt, decrypt } from 'eciesjs';
 
 
-function test_i() {
-    // const key_private = "MHhjNWU3ZmY5ZDE1NDdmMTNkMmE2YmY5NGViZGYyNzY4MGNkYTk3NGUwNGUzNzI0MTE1ZGMxZjYzMGFhYWY5M2E0";
-    // const key_public = "MHhlN2UyYmUwYWUwNGZkOTk5ZDE1NjBhZjQ3NWU1OTAyOWYzZDJlOTM2MzYxZTZiZDA1ZWZiZGVmYzg0MjRkM2YxZjhjODE0ZDZkZjYxMThhN2NkNWM2ODg5YWI3YmFhYzc2MDViMDhhYmJlODhjYzkyNGVhYzllYWU1ZmU0MGUxZA==";
-    // const message = " BGDlAFstEpGVkpuo9U8qX1VGzSkPmqd35m7L6dEjxaxkrB8hXD5L5gtcNqOs6ONWaaYF5Ui+7gVjV5FJnCsW+Bh4ZaVffLZTKdQVZ0vOLjsa04vAo2sWnyiVExyQWAlndQ7uDZtT5lowp4wsk3MKFF6WJUkGaAlae5gtT4+HiJqIuROP7PDW7xb9Av52GwzX/jCNDIqr2YbwGP/rONNDNw2uHxVZ7NPpVTu3I1ge4Qw8G489CRdvh1JOTryhSiIGOx124e+lCq40";
+class ECIES {
+  private_key;
+  public_key;
 
-    const private_key = "MDllOTFkYjMxZTNiNTYwMzdkOTVlOGQxYmEyYjQ3NzhjN2M5MGNlODE4YWI0MDE4NWE2YTZiNTQ1MTRmOGM1Zg==";
-    const public_key = "MDIzN2E0M2RhYWJiZDJjMjJhZmVjYzE3ZWU3MDkxMDQ1ZDU1YzBkODg2ODIxYmYwMTA0YjEyM2Y0ZmRlZWMyMjc5";
+  constructor(private_key = '', public_key = '') {
+      this.private_key = private_key;
+      this.public_key = public_key;
+  }
 
-    const message_secret = "BL+Fu87LUFBe3X/QJck3kN291VbEI9MmR3xAtIuu3qinDzTy2j7lpoK+pgMkS2zg6LYW8PCHaZokGGLBxc4UxG2" +
-        "EVNb4VNrCR+M2Oh6aY1yuAWMA6WVV0oVPWNcjKU22+GStHTEdRcA=";
+  async encrypt(message = '') {
+      try {
+          if (this.public_key === '') {
+              throw new Error("Can't encrypt your data, 'public_key' is not defined.");
+          }
+          
+          let key_buffered = Buffer.from(this.public_key, 'base64').toString();
+          let encrypted = encrypt(key_buffered, message);
 
-    // let msg = "Alexxändr Núñez Göebèlsáê";
-    // let msg_b = Buffer.from(msg, "utf-8").base64Slice();
-    // console.log(`msg_b: '${msg_b}'`);
+          return Buffer.from(encrypted).toString('base64');
 
-    // let data = Buffer.from(msg_b, "base64").toString('utf-8');
-    // console.log(`data: '${data}'`);
-    // let public_key;
-    try {
-        //public_key = getPublic(Buffer.from(key_public));
-    } catch (e) {
-        console.log(e);
-    }
-    let data = decrypt(public_key).then(function (message) {
-        console.log(`message: ${message}`);
-    }).catch(function (error) {
-        console.log(`error: ${error}`);
-    });
+      } catch(e) {
+          console.log(`Error: ${e}`);
+          throw e;
+      }
+  }
 
-    console.log(`data: ${data}`);
+  async decrypt(data) {
+      try {
+          if (this.private_key === '') {
+              throw new Error("Can't decrypt your data, 'private_key' is not defined.");
+          }
+          let key_buffered = Buffer.from(this.private_key, 'base64').toString();
+          let decrypted = decrypt(key_buffered, Buffer.from(data, 'base64'));
 
+          return Buffer.from(decrypted).toString('utf-8');
+
+      } catch(e) {
+          console.log(`Error: ${e}`);
+          throw e;
+      }
+  }
+
+  async getKeyPair() {
+      return {
+          "private_key": this.private_key,
+          "public_key": this.public_key
+      };
+  }
 }
 
-
-function test_ii() {
-    const private_key = "MDllOTFkYjMxZTNiNTYwMzdkOTVlOGQxYmEyYjQ3NzhjN2M5MGNlODE4YWI0MDE4NWE2YTZiNTQ1MTRmOGM1Zg==";
-    const public_key = "MDIzN2E0M2RhYWJiZDJjMjJhZmVjYzE3ZWU3MDkxMDQ1ZDU1YzBkODg2ODIxYmYwMTA0YjEyM2Y0ZmRlZWMyMjc5";
-
-    const message_enc = "BD2NPMycdxfE2hJB5jyG6ozs7MHOA0hQrsrEeq5hnLs9PkZmNQE46BAzrO2dUZ0ecKsT2rB6PZo6jzIEU2b0kimhyV29" +
-        "eE6y0E4hVbdq14RwVXjnAhSODN8ZC5RBxsjp31ivqH0zAKHMpfHRiPkBBPgVr1gPurSvkkNMknXUtYtPBxbQc9IHpIlZ" +
-        "e8YQWX105obraACxDOoCHV2I1kWUiuxlABI1knO0pD1e9mNwmdgkq5YhJApVKKVX4WUcGrfVHNnvdRTkBXCf";
-
-
-    let x;
-    try {
-        x = decrypt(private_key, message_enc);
-    } catch (e) {
-        console.log(e);
-    }
-
-    x.then((plaintext) => {
-        console.log("Decrypted message: ", plaintext.toString());
-    }).catch((result) => {
-        console.log("Error: ", result);
-    });
-
-}
-
-
-function test_iii() {
-    const private_keyA = "MDllOTFkYjMxZTNiNTYwMzdkOTVlOGQxYmEyYjQ3NzhjN2M5MGNlODE4YWI0MDE4NWE2YTZiNTQ1MTRmOGM1Zg==";
-    const public_keyA = "MDIzN2E0M2RhYWJiZDJjMjJhZmVjYzE3ZWU3MDkxMDQ1ZDU1YzBkODg2ODIxYmYwMTA0YjEyM2Y0ZmRlZWMyMjc5";
-
-    const private_keyB = "MHhjNWU3ZmY5ZDE1NDdmMTNkMmE2YmY5NGViZGYyNzY4MGNkYTk3NGUwNGUzNzI0MTE1ZGMxZjYzMGFhYWY5M2E0"
-    const public_keyB = "MHhlN2UyYmUwYWUwNGZkOTk5ZDE1NjBhZjQ3NWU1OTAyOWYzZDJlOTM2MzYxZTZiZDA1ZWZiZGVmYzg0MjRkM2YxZjhjODE0ZDZkZjYxMThhN2NkNWM2ODg5YWI3YmFhYzc2MDViMDhhYmJlODhjYzkyNGVhYzllYWU1ZmU0MGUxZA=="
-
-
-    const message = "Si la depuración es el proceso de eliminar errores, entonces la programación debe ser el proceso de introducirlos. Edsger W. Dijkstra";
-
-    let public_keyA_b = Buffer.from(public_keyA, 'base64');
-    let public_keyA_u = new Uint8Array(public_keyA_b);
-
-    encrypt(public_keyA_u, Buffer.from(message)).then((data) => {
-        console.log(`DATA: ${data}`);
-        console.log(`DATA: ${Buffer.from(data, 'utf-8')}`);
-    }).catch((error) => {
-        console.log(`ERRO: ${error}`);
-    });
-
-    let public_keyB_b = Buffer.from(public_keyB, 'base64');
-    let public_keyB_u = new Uint8Array(public_keyB_b);
-
-    encrypt(public_keyB_u, Buffer.from(message)).then((data) => {
-        console.log(`DATA: ${data}`);
-        console.log(`DATA: ${Buffer.from(data, 'utf-8')}`);
-    }).catch((error) => {
-        console.log(`ERRO: ${error}`);
-    });
-}
-
-
-async function test_iv() {
-    let message = "Esta e suna frase de prueba";
-
-    let privateKeyA = generatePrivate();
-    let publicKeyA = getPublic(privateKeyA);
-
-    console.log(`message: ${message}`);
-
-    let message_enc = '';
-    await encrypt(publicKeyA, message).then((msg) => {
-        message_enc = msg
-        console.log(`ecrypted: '${message_enc}'`);
-    }).catch((error) => {
-        console.log(`ERROR: '${error}'`);
-    });
-
-    let message_dec = '';
-    await decrypt(privateKeyA, message).then((msg) => {
-        message_dec = msg;
-        console.log(`decrypted: '${message_dec}'`);
-    }).catch((error) => {
-        console.log(`ERROR: '${error}'`);
-    });
-
-}
-
-(() => {
-    // test_i();
-    // test_ii();
-    // test_iii();
-    test_iv();
-})();
+export { ECIES };

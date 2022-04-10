@@ -1,14 +1,22 @@
 package com.bancoazteca.big.security.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+public class ECIES {
+    private String saludo;
 
-public class Ecies {
-    private static final Logger logger = LoggerFactory.getLogger(Ecies.class);
-    private String privateKey;
-    private String publicKey;
-    
-    public Ecies() {
-        logger.info("Objeto ECIES creado con éxito.");
+    public String getSaludo() {
+        return saludo;
+    }
+
+    public void setSaludo(String saludo) {
+        this.saludo = saludo;
+    }
+
+    public ECIES(String saludo) {
+        this.saludo = saludo;
+    }
+
+    @Override
+    public String toString() {
+        return "ECIES{" + "saludo=" + saludo + '}';
     }
 }
