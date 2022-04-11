@@ -4,8 +4,8 @@ import { ECIES } from './ecies.js';
 function test() {
     const private_key = "MDllOTFkYjMxZTNiNTYwMzdkOTVlOGQxYmEyYjQ3NzhjN2M5MGNlODE4YWI0MDE4NWE2YTZiNTQ1MTRmOGM1Zg=="
     const public_key = "MDIzN2E0M2RhYWJiZDJjMjJhZmVjYzE3ZWU3MDkxMDQ1ZDU1YzBkODg2ODIxYmYwMTA0YjEyM2Y0ZmRlZWMyMjc5"
-    // const ecies = new ECIES(private_key, public_key);
-    const ecies = new ECIES();
+    const ecies = new ECIES(private_key, public_key);
+    // const ecies = new ECIES();
 
     const message = "Es genial trabajar con ordenadores. No discuten, lo recuerdan todo y no se beben tu cerveza. -Paul Leary";
 
@@ -25,5 +25,5 @@ function test() {
 
 
 (() => {
-  test();
+    test();
 })();
