@@ -7,8 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Alejandro Bravo <alejandro.bravo@bancoazteca.com.mx>",
-  "license": "ISC",
+  "author": "Alejandro Bravo Torres <bravotorres.alejandro@gmail.com>",
+  "license": "GPL-3.0",
   "dependencies": {
     "eciesjs": "^0.3.14"
   }

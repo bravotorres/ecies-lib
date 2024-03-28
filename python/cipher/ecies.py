@@ -21,9 +21,11 @@ class ECIES:
             self.eth_key = generate_key()
 
             private_key = self.eth_key.to_hex()
+            print(f'String private_key_hex = "{private_key}";')
             private_key = b64encode(private_key.encode()).decode()
 
             public_key = self.eth_key.public_key.format().hex()
+            print(f'String public_key_hex = "{public_key}";')
             public_key = b64encode(public_key.encode()).decode()
 
         self.private_key = private_key
@@ -42,6 +44,12 @@ class ECIES:
         key = key.decode()
 
         encrypted = encrypt(key, message.encode('UTF-8'))
+        print(f'        String encrypted = "{encrypted}";')
+        print(f'    String encrypted b64 = "{b64encode(encrypted).decode()}";')
+
+        e_hex = encrypted.hex()
+        print(f'    String encrypted_hex = "{e_hex}";')
+        print(f'String encrypted_hex b64 = "{b64encode(e_hex.encode()).decode()}";')
 
         return b64encode(encrypted).decode('UTF-8')
 

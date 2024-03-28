@@ -44,7 +44,30 @@ def demo_ii():
     message_dec = ecies.decrypt(message_enc)
     print(f"Decrypted: {message_dec}")
 
+    a = "MDRhNjUxNzIyZDVlNjZjZDIzOTZlN2Y2YTM0ZGUxODlhOGY3YWExOTEyYjViOTFkODQ3Y2U5NjkwM2YxYjMxYjVhNWQ3NmY3YTg4ZDA4ZjQ5OTJlZjhkMTRhZjljZmJiMDM1OTc2MDU2YTlkZGYzMTMxODM0ZjNhOGE1NmNjNzIyNmYwY2U5YjcxYzBmN2FkMDNhNTIyNDJlY2Y0NmQzMmQ3YzdjMzVjYmRkYzc2MGMyOTNmOTRiZjUwMjg3ZTcwNzQ4NDg4NTAwNDgzYzA2ZmRmYTM1NGNkY2QzODFhZDcwZjNiNTQ0NmI3NjM1M2ZkZmZlNWY2NGI1MWE1YmJmMGIzNzBmZjlhN2ExYTc5Zjg4ZDUzNzZiZTVlM2Y5MzI3ZmI1NWVkMjNhYzA5NjY0ODA2YjRiMTljNGRlM2UzODVmZGJhOTllODQ2MjUzNzEyMGI4MTNkMmFmNGJjOWU3MjM2NjU1NTA2MDBhZjgyYjYxY2E1NzA4ZTU1ZGQ4NDMwYWY0OWVhYTZjOTNlNmU2N2Zi"
+    message_dec = ecies.decrypt(a)
+    print(f"Decrypted: {message_dec}")
+
+
+def demo_iii():
+    message = "Es genial trabajar con ordenadores. No discuten, lo recuerdan todo y no se beben tu cerveza. -Paul Leary"
+
+    e = ECIES()
+
+    public_key = e.get_public_key()
+    print(f' String public_key = "{public_key}";')
+
+    private_key = e.get_private_key()
+    print(f' String private_key = "{private_key}";')
+
+    encrypted = e.encrypt(message=message)
+    print(f' String encrypted = "{encrypted}";')
+
+    decrypted = e.decrypt(message=encrypted)
+    print(f' String decrypted = "{decrypted}";')
+
 
 if __name__ == '__main__':
     # demo_i()
     demo_ii()
+    # demo_iii()
